@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+
+namespace Valid_Parentheses
+{
+    class Program
+    {
+        static Dictionary<char, char> kvp = new Dictionary<char, char>()
+        {
+            ['}']='{',
+            [')'] = '(',
+            [']'] = '['
+        };
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the string!");
+            var input = Console.ReadLine();
+            Console.WriteLine(IsValid(input));
+        }
+
+        static bool IsValid(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+            Stack<char> stack = new Stack<char>();
+
+            foreach(char c in s)
+            {
+                if (kvp.ContainsKey(c))
+                {
+                    char poppedChar = stack.Count == 0 ? '#' : stack.Pop();
+                    if (poppedChar != kvp[c]) return false;
+                }
+                else
+                {
+                    stack.Push(c);
+                }
+            }
+
+            return stack.Count == 0;
+        }
+    }
+}
